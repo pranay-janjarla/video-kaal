@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Chat Groups</title>
+    <style>
+/* Modern CSS Reset and Custom Properties */
+:root {
+  /* Color System */
+  --color-primary: #4f46e5;
+  --color-primary-light: #6366f1;
+  --color-primary-dark: #4338ca;
+  --color-secondary: #0ea5e9;
+  --color-success: #10b981;
+  --color-background: #ffffff;
+  --color-surface: #f8fafc;
+  --color-surface-dark: #f1f5f9;
+  --color-text: #1e293b;
+  --color-text-light: #64748b;
+  --color-border: #e2e8f0;
+  
+  /* Typography */
+  --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-size-xs: clamp(0.75rem, 0.7vw + 0.57rem, 0.84rem);
+  --font-size-sm: clamp(0.875rem, 0.8vw + 0.7rem, 1rem);
+  --font-size-base: clamp(1rem, 0.9vw + 0.8rem, 1.19rem);
+  --font-size-lg: clamp(1.25rem, 1.2vw + 1rem, 1.58rem);
+  --font-size-xl: clamp(1.5rem, 1.5vw + 1.2rem, 2.11rem);
+  
+  /* Spacing */
+  --space-xs: clamp(0.75rem, 1vw, 1rem);
+  --space-sm: clamp(1rem, 1.5vw, 1.5rem);
+  --space-md: clamp(1.5rem, 2.5vw, 2rem);
+  --space-lg: clamp(2rem, 3.5vw, 3rem);
+  
+  /* Effects */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --border-radius-sm: 0.5rem;
+  --border-radius-md: 0.75rem;
+  --border-radius-lg: 1rem;
+}
+
+/* Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+  .container-main{
+    height: 100%;
+    width: 80%;
+    margin: 0 auto;
+    padding: 2rem;
+
+  }
+
+/* Container */
+.container {
+  max-width: min(90%, 800px);
+  margin: 0 auto;
+  padding: var(--space-md);
+}
+
+/* Typography */
+h1 {
+  font-size: var(--font-size-xl);
+  color: var(--color-text);
+  margin-bottom: var(--space-lg);
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  margin-bottom: var(--space-xs);
+  font-weight: 600;
+}
+
+p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  margin-bottom: var(--space-xs);
+}
+
+/* Create Group Form */
+.create-group-form {
+  background: var(--color-surface);
+  padding: var(--space-md);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  margin-bottom: var(--space-lg);
+  border: 1px solid var(--color-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.create-group-form:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 20px 25px -5px rgb(0 0 0 / 0.1);
+}
+
+/* Form Elements */
+input,
+textarea {
+  width: 100%;
+  padding: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Buttons */
+.join-btn {
+  background: var(--color-primary);
+  color: white;
+  padding: var(--space-xs) var(--space-md);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.join-btn:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+}
+
+.join-btn:active {
+  transform: translateY(0);
+}
+
+/* Group List */
+.group-list {
+  display: grid;
+  gap: var(--space-md);
+}
+
+/* Group Items */
+.group-item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: var(--space-md);
+  border-radius: var(--border-radius-md);
+  transition: all 0.2s ease;
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.group-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary-light);
+}
+
+.group-item h3 {
+  color: var(--color-primary);
+}
+
+.group-item p {
+  margin: 0;
+}
+
+/* Active Members Badge */
+.group-item p:last-of-type {
+  display: inline-block;
+  background: var(--color-surface-dark);
+  padding: 0.25rem 0.75rem;
+  border-radius: 2rem;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .container {
+    padding: var(--space-sm);
+  }
+  
+  .create-group-form {
+    padding: var(--space-sm);
+  }
+  
+  .join-btn {
+    width: 100%;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #0f172a;
+    --color-surface: #1e293b;
+    --color-surface-dark: #334155;
+    --color-text: #f8fafc;
+    --color-text-light: #94a3b8;
+    --color-border: #334155;
+  }
+  
+  .group-item:hover {
+    border-color: var(--color-primary);
+  }
+}
+
+/* Loading State */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.loading {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, var(--color-surface) 4%, var(--color-surface-dark) 25%, var(--color-surface) 36%);
+  background-size: 1000px 100%;
+}
+
+/* Focus Visible */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .create-group-form,
+  .join-btn {
+    display: none;
+  }
+  
+  .group-item {
+    break-inside: avoid;
+    border: 1px solid #000;
+    page-break-inside: avoid;
+  }
+
+}
+    </style>
+</head>
+<body>
+    <div class="container-main">
+    <h1>Video Chat Groups</h1>
+    
+    <div class="create-group-form">
+        <h2>Create New Group</h2>
+        <form action="/groups" method="POST">
+            <input type="text" name="name" placeholder="Group Name" required>
+            <textarea name="description" placeholder="Group Description"></textarea>
+            <button type="submit" class="join-btn">Create Group</button>
+        </form>
+    </div>
+
+    <div class="group-list">
+        <h2>Available Groups</h2>
+        <% groups.forEach(group => { %>
+            <div class="group-item">
+                <h3><%= group.name %></h3>
+                <p><%= group.description %></p>
+                <p>Active Members: <%= group.members.length %></p>
+                <a href="/group/<%= group._id %>">
+                    <button class="join-btn">Join Video Call</button>
+                </a>
+            </div>
+        <% }); %>
+    </div>
+</div>
+</body>
+</html>
