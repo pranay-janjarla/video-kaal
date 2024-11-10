@@ -1,5 +1,5 @@
 
-<h2>Video Chat Groups Application Documentation</h2>
+<h1>Video Chat Groups Application Documentation</h1>
 
 <h3>Overview</h3>
 <p>A real-time video chat application that enables users to create and join video chat groups. The application provides a modern, responsive interface with support for both light and dark modes.</p>
