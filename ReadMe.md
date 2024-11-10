@@ -1,5 +1,4 @@
 
-```markdown
 <h2>Video Chat Groups Application Documentation</h2>
 
 <h3>Overview</h3>
