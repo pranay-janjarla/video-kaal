@@ -10,6 +10,18 @@ let isVideoOn = true;
 let isAudioOn = true;
 
 // Initialize peer connection
+/**
+* Initializes a Peer connection with specific settings.
+* @example
+* initializePeer()
+* undefined
+* @param {undefined} {Undefined} - This function does not accept any arguments.
+* @returns {void} Does not return a value.
+* @description
+*   - Retries initialization if Peer is not available yet.
+*   - Uses default settings if peer is successfully initialized.
+*   - Logs an error message upon failure to initialize.
+*/
 function initializePeer() {
   if (typeof Peer === "undefined") {
     setTimeout(initializePeer, 100);
@@ -28,6 +40,19 @@ function initializePeer() {
   }
 }
 
+/**
+ * Initializes peer-to-peer connection events and handles streaming video and audio.
+ * @example
+ * setupPeerEvents()
+ * // Initiating peer events and managing video streams
+ * @param none - This function does not take any arguments.
+ * @returns {void} This function does not return a value.
+ * @description
+ *   - Utilizes `getUserMedia` to access local video and audio.
+ *   - Manages incoming and outgoing peer connections and streams.
+ *   - Handles socket events for user connection, disconnection, and participant updates.
+ *   - Automatically joins room and group upon peer connection open.
+ */
 function setupPeerEvents() {
   const myVideo = document.createElement("video");
   myVideo.muted = true;
@@ -75,6 +100,18 @@ function setupPeerEvents() {
     socket.emit("join-room", ROOM_ID, id, GROUP_ID);
   });
 
+  /**
+  * Establishes a peer-to-peer connection and handles the video stream for a new user.
+  * @example
+  * connectToNewUser('user12345', localStream)
+  * undefined
+  * @param {string} userId - Unique identifier for the new user.
+  * @param {MediaStream} stream - Media stream to be sent to the new user.
+  * @returns {void} No return value.
+  * @description
+  *   - Creates a new video element for the user's video stream.
+  *   - Stores the peer connection object in the global `peers` object using `userId` as the key.
+  */
   function connectToNewUser(userId, stream) {
     const call = myPeer.call(userId, stream);
     const video = document.createElement("video");
